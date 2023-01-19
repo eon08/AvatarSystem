@@ -14,8 +14,8 @@ public class YamlManager {
     private final String dir;
 
     public YamlManager(String dir, String name) {
-        dir = System.getProperty("user.dir") + "\\" + dir;
-        this.file = new File(dir + "\\" + name + ".yml");
+        dir = System.getProperty("user.dir") + "/" + dir;
+        this.file = new File(dir + "/" + name + ".yml");
         this.dir = dir;
         this.create();
     }
