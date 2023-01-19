@@ -1,0 +1,6 @@
+name: AvatarSystem
+version: '${version}'
+main: io.github.alal08.avatarsystem.AvatarSystem
+api-version: 1.19
+depend:
+  - Citizens
