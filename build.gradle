@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'io.github.alal08'
-version = 'alpha'
+version = 'beta'
 
 repositories {
     mavenCentral()
