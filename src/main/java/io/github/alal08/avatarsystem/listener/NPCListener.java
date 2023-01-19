@@ -1,6 +1,6 @@
 package io.github.alal08.avatarsystem.listener;
 
-import io.github.alal08.avatarsystem.util.PlayerDataManager;
+import io.github.alal08.avatarsystem.util.PlayerLoader;
 import net.citizensnpcs.api.event.NPCDeathEvent;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Owner;
@@ -21,7 +21,7 @@ public class NPCListener implements Listener {
     public void onNPCDeath(@NotNull NPCDeathEvent event) {
         NPC npc = event.getNPC();
         UUID ownerUUID = npc.getOrAddTrait(Owner.class).getOwnerId();
-        Player player = PlayerDataManager.loadPlayer(Bukkit.getOfflinePlayer(ownerUUID));
+        Player player = PlayerLoader.loadPlayer(Bukkit.getOfflinePlayer(ownerUUID));
         World world = player.getWorld();
         if (Boolean.FALSE.equals(world.getGameRuleValue(GameRule.KEEP_INVENTORY))) {
             ItemStack[] itemStacks = player.getInventory().getContents();

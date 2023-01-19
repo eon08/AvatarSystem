@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class PlayerDataManager {
+public class PlayerLoader {
 
     public static @Nullable Player loadPlayer(@NotNull final OfflinePlayer offline) {
         if (!offline.hasPlayedBefore()) {
