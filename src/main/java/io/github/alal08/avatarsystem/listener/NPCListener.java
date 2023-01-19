@@ -1,6 +1,7 @@
 package io.github.alal08.avatarsystem.listener;
 
 import io.github.alal08.avatarsystem.util.PlayerLoader;
+import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.NPCDeathEvent;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Owner;
@@ -10,6 +11,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,5 +33,11 @@ public class NPCListener implements Listener {
                 }
             }
         }
+    }
+
+    @EventHandler
+    public void onNPCAttemptPickupItem(@NotNull PlayerAttemptPickupItemEvent event) {
+        Player player = event.getPlayer();
+        event.setCancelled(CitizensAPI.getNPCRegistry().isNPC(player));
     }
 }
