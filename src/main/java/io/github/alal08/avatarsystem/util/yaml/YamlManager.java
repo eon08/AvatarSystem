@@ -1,16 +1,12 @@
 package io.github.alal08.avatarsystem.util.yaml;
 
-import com.google.common.base.MoreObjects;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.DumperOptions.FlowStyle;
+import org.yaml.snakeyaml.Yaml;
+
+import java.io.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 
 public class YamlManager {
 
@@ -29,7 +25,6 @@ public class YamlManager {
         if (!folder.exists()) {
             folder.mkdirs();
         }
-
         if (!this.file.exists()) {
             try {
                 this.file.createNewFile();
@@ -47,7 +42,6 @@ public class YamlManager {
         } catch (IOException var5) {
             throw new RuntimeException(var5);
         }
-
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(FlowStyle.BLOCK);
         Yaml yaml = new Yaml(options);
@@ -61,13 +55,11 @@ public class YamlManager {
         } catch (FileNotFoundException var4) {
             throw new RuntimeException(var4);
         }
-
         Yaml yaml = new Yaml();
         Map<String, Object> yamlMap = yaml.load(fileReader);
         if (yamlMap == null) {
-            yamlMap = new LinkedHashMap();
+            yamlMap = new LinkedHashMap<>();
         }
-
         return yamlMap;
     }
 
@@ -76,11 +68,10 @@ public class YamlManager {
     }
 
     public void put(String key, Object value) {
-        Map<String, Object> yamlMap = new LinkedHashMap();
+        Map<String, Object> yamlMap = new LinkedHashMap<>();
         if (this.getValues() != null) {
             yamlMap = this.getValues();
         }
-
         (yamlMap).put(key, value);
         this.save(yamlMap);
     }

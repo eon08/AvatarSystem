@@ -5,6 +5,7 @@ import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Equipment;
 import net.citizensnpcs.api.trait.trait.Owner;
+import org.bukkit.GameRule;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -50,8 +51,11 @@ public class Avatar {
         String npcUUID = (String) dataAvatarYaml.get(player.getUniqueId().toString());
         if (npcUUID == null) return;
         NPC npc = CitizensAPI.getNPCRegistry().getByUniqueId(UUID.fromString(npcUUID));
+        if (npc == null) return;
         LivingEntity entity = livingEntityFromEntity(npc.getEntity());
         if (entity == null) {
+            if (Boolean.FALSE.equals(player.getWorld().getGameRuleValue(GameRule.KEEP_INVENTORY)))
+                player.getInventory().clear();
             player.setHealth(0);
             npc.destroy();
             return;
