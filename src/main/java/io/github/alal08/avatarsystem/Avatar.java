@@ -1,6 +1,6 @@
 package io.github.alal08.avatarsystem;
 
-import io.github.alal08.avatarsystem.util.yaml.YamlHelper;
+import io.github.alal08.avatarsystem.util.yaml.YamlManager;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Equipment;
@@ -16,6 +16,8 @@ import java.util.UUID;
 
 public class Avatar {
 
+    private static final YamlManager dataAvatarYaml = new YamlManager("data", "avatar");
+
     private static LivingEntity livingEntityFromEntity(Entity entity) {
         if (entity instanceof LivingEntity) {
             return (LivingEntity) entity;
@@ -25,7 +27,7 @@ public class Avatar {
 
     public static void initAvatar(@NotNull Player player) {
         NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, player.getName(), player.getLocation());
-        YamlHelper.set("data", "avatar", player.getUniqueId().toString(), npc.getUniqueId().toString());
+        dataAvatarYaml.put(player.getUniqueId().toString(), npc.getUniqueId().toString());
         npc.destroy();
     }
 
@@ -41,12 +43,11 @@ public class Avatar {
         npc.setProtected(false);
         Owner owner = npc.getOrAddTrait(Owner.class);
         owner.setOwner(player.getUniqueId());
-        YamlHelper.set("data", "avatar", player.getUniqueId().toString(), npc.getUniqueId().toString());
-        YamlHelper.set("playerdata", player.getUniqueId().toString(), "inventory", inventory);
+        dataAvatarYaml.put(player.getUniqueId().toString(), npc.getUniqueId().toString());
     }
 
     public static void connectAvatar(@NotNull Player player) {
-        String npcUUID = (String) YamlHelper.get("data", "avatar", player.getUniqueId().toString());
+        String npcUUID = (String) dataAvatarYaml.get(player.getUniqueId().toString());
         if (npcUUID == null) return;
         NPC npc = CitizensAPI.getNPCRegistry().getByUniqueId(UUID.fromString(npcUUID));
         LivingEntity entity = livingEntityFromEntity(npc.getEntity());
