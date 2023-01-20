@@ -13,6 +13,7 @@ public final class AvatarSystem extends JavaPlugin {
         plugin = this;
         new CommandHandler(plugin);
         new ListenerHandler(plugin);
+        net.citizensnpcs.api.CitizensAPI.getTraitFactory().registerTrait(net.citizensnpcs.api.trait.TraitInfo.create(AvatarTrait.class));
     }
 
     @Override

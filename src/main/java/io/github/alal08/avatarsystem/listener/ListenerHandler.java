@@ -8,7 +8,7 @@ public class ListenerHandler {
 
     public ListenerHandler(@NotNull JavaPlugin plugin) {
         PluginManager pluginManager = plugin.getServer().getPluginManager();
-        pluginManager.registerEvents(new NPCListener(), plugin);
+        pluginManager.registerEvents(new AvatarListener(), plugin);
         pluginManager.registerEvents(new PlayerListener(), plugin);
     }
 }
