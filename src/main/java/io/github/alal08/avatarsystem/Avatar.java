@@ -48,9 +48,11 @@ public class Avatar {
     }
 
     public static void connectAvatar(@NotNull Player player) {
+        NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, player.getName(), player.getLocation());
+        npc.destroy();
         String npcUUID = (String) dataAvatarYaml.get(player.getUniqueId().toString());
         if (npcUUID == null) return;
-        NPC npc = CitizensAPI.getNPCRegistry().getByUniqueId(UUID.fromString(npcUUID));
+        npc = CitizensAPI.getNPCRegistry().getByUniqueId(UUID.fromString(npcUUID));
         if (npc == null) return;
         Player playerNPC = PlayerFromEntity(npc.getEntity());
         if (playerNPC == null) {
