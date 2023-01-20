@@ -4,8 +4,8 @@ import io.github.alal08.avatarsystem.util.yaml.YamlManager;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Equipment;
+import net.citizensnpcs.api.trait.trait.Inventory;
 import net.citizensnpcs.api.trait.trait.Owner;
-import org.bukkit.GameMode;
 import org.bukkit.GameRule;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -27,27 +27,24 @@ public class Avatar {
         return null;
     }
 
-    public static void initAvatar(@NotNull Player player) {
-        NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, player.getName(), player.getLocation());
-        dataAvatarYaml.put(player.getUniqueId().toString(), npc.getUniqueId().toString());
-        npc.destroy();
-    }
-
     public static void disconnectAvatar(@NotNull Player player) {
         NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, player.getName(), player.getLocation());
-        livingEntityFromEntity(npc.getEntity()).setHealth(player.getHealth());
-        Equipment equipment = npc.getOrAddTrait(Equipment.class);
-        PlayerInventory inventory = player.getInventory();
-        equipment.set(Equipment.EquipmentSlot.HAND, inventory.getItemInMainHand());
-        equipment.set(Equipment.EquipmentSlot.OFF_HAND, inventory.getItemInOffHand());
-        equipment.set(Equipment.EquipmentSlot.HELMET, inventory.getHelmet());
-        equipment.set(Equipment.EquipmentSlot.CHESTPLATE, inventory.getChestplate());
-        equipment.set(Equipment.EquipmentSlot.LEGGINGS, inventory.getLeggings());
-        equipment.set(Equipment.EquipmentSlot.BOOTS, inventory.getBoots());
-        npc.setProtected(player.getGameMode().equals(GameMode.CREATIVE));
-        Owner owner = npc.getOrAddTrait(Owner.class);
-        owner.setOwner(player.getUniqueId());
         dataAvatarYaml.put(player.getUniqueId().toString(), npc.getUniqueId().toString());
+        npc.getOrAddTrait(Owner.class).setOwner(player.getUniqueId());
+        npc.setProtected(false);
+        ((Player) npc.getEntity()).setGameMode(player.getGameMode());
+        ((LivingEntity) npc.getEntity()).setHealth(player.getHealth());
+        PlayerInventory playerInventory = player.getInventory();
+        Inventory inventory = npc.getOrAddTrait(Inventory.class);
+        inventory.setContents(playerInventory.getContents());
+        Equipment equipment = npc.getOrAddTrait(Equipment.class);
+        equipment.set(Equipment.EquipmentSlot.OFF_HAND, playerInventory.getItemInOffHand());
+        equipment.set(Equipment.EquipmentSlot.HELMET, playerInventory.getHelmet());
+        equipment.set(Equipment.EquipmentSlot.CHESTPLATE, playerInventory.getChestplate());
+        equipment.set(Equipment.EquipmentSlot.LEGGINGS, playerInventory.getLeggings());
+        equipment.set(Equipment.EquipmentSlot.BOOTS, playerInventory.getBoots());
+        ((Player) npc.getEntity()).getInventory().setHeldItemSlot(playerInventory.getHeldItemSlot());
+        ((Player) npc.getEntity()).addPotionEffects(player.getActivePotionEffects());
     }
 
     public static void connectAvatar(@NotNull Player player) {
@@ -65,6 +62,8 @@ public class Avatar {
         }
         player.teleport(entity.getLocation());
         player.setHealth(entity.getHealth());
+        player.getInventory().setContents(npc.getOrAddTrait(Inventory.class).getContents());
+        player.addPotionEffects(((Player) npc.getEntity()).getActivePotionEffects());
         npc.destroy();
     }
 }

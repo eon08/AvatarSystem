@@ -12,9 +12,8 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(@NotNull PlayerJoinEvent event) {
-        Player player = event.getPlayer();
+        Player player = event.getPlayer(); //AsyncPlayerPreJoinEvent로 변경 예정
         Avatar.connectAvatar(player);
-        Avatar.initAvatar(player);
     }
 
     @EventHandler

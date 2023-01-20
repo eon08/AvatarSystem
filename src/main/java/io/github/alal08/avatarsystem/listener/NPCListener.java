@@ -1,17 +1,13 @@
 package io.github.alal08.avatarsystem.listener;
 
-import io.github.alal08.avatarsystem.util.PlayerLoader;
-import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.NPCDeathEvent;
 import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.trait.trait.Inventory;
 import net.citizensnpcs.api.trait.trait.Owner;
-import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,21 +19,14 @@ public class NPCListener implements Listener {
     public void onNPCDeath(@NotNull NPCDeathEvent event) {
         NPC npc = event.getNPC();
         UUID ownerUUID = npc.getOrAddTrait(Owner.class).getOwnerId();
-        Player player = PlayerLoader.loadPlayer(Bukkit.getOfflinePlayer(ownerUUID));
-        World world = player.getWorld();
+        World world = npc.getEntity().getWorld();
         if (Boolean.FALSE.equals(world.getGameRuleValue(GameRule.KEEP_INVENTORY))) {
-            ItemStack[] itemStacks = player.getInventory().getContents();
+            ItemStack[] itemStacks = npc.getOrAddTrait(Inventory.class).getContents();
             for (ItemStack itemStack : itemStacks) {
                 if (itemStack != null) {
                     world.dropItem(npc.getEntity().getLocation(), itemStack);
                 }
             }
         }
-    }
-
-    @EventHandler
-    public void onNPCAttemptPickupItem(@NotNull PlayerAttemptPickupItemEvent event) {
-        Player player = event.getPlayer();
-        event.setCancelled(CitizensAPI.getNPCRegistry().isNPC(player));
     }
 }
