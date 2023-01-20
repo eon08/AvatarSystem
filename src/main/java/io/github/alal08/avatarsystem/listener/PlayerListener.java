@@ -13,6 +13,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(@NotNull PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        Avatar.initAvatar(player);
         Avatar.connectAvatar(player);
     }
 
