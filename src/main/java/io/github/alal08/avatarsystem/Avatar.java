@@ -10,7 +10,6 @@ import org.bukkit.GameRule;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 import org.jetbrains.annotations.NotNull;
@@ -21,9 +20,9 @@ public class Avatar {
 
     private static final YamlManager dataAvatarYaml = new YamlManager("data", "avatar");
 
-    private static LivingEntity livingEntityFromEntity(Entity entity) {
-        if (entity instanceof LivingEntity) {
-            return (LivingEntity) entity;
+    private static Player PlayerFromEntity(Entity entity) {
+        if (entity instanceof Player) {
+            return (Player) entity;
         }
         return null;
     }
@@ -33,8 +32,6 @@ public class Avatar {
         dataAvatarYaml.put(player.getUniqueId().toString(), npc.getUniqueId().toString());
         npc.getOrAddTrait(Owner.class).setOwner(player.getUniqueId());
         npc.setProtected(false);
-        ((Player) npc.getEntity()).setGameMode(player.getGameMode());
-        ((LivingEntity) npc.getEntity()).setHealth(player.getHealth());
         PlayerInventory playerInventory = player.getInventory();
         Inventory inventory = npc.getOrAddTrait(Inventory.class);
         inventory.setContents(playerInventory.getContents());
@@ -44,8 +41,10 @@ public class Avatar {
         equipment.set(Equipment.EquipmentSlot.CHESTPLATE, playerInventory.getChestplate());
         equipment.set(Equipment.EquipmentSlot.LEGGINGS, playerInventory.getLeggings());
         equipment.set(Equipment.EquipmentSlot.BOOTS, playerInventory.getBoots());
-        ((Player) npc.getEntity()).getInventory().setHeldItemSlot(playerInventory.getHeldItemSlot());
-        ((Player) npc.getEntity()).addPotionEffects(player.getActivePotionEffects());
+        PlayerFromEntity(npc.getEntity()).setGameMode(player.getGameMode());
+        PlayerFromEntity(npc.getEntity()).setHealth(player.getHealth());
+        PlayerFromEntity(npc.getEntity()).getInventory().setHeldItemSlot(playerInventory.getHeldItemSlot());
+        PlayerFromEntity(npc.getEntity()).addPotionEffects(player.getActivePotionEffects());
     }
 
     public static void connectAvatar(@NotNull Player player) {
@@ -53,8 +52,8 @@ public class Avatar {
         if (npcUUID == null) return;
         NPC npc = CitizensAPI.getNPCRegistry().getByUniqueId(UUID.fromString(npcUUID));
         if (npc == null) return;
-        LivingEntity entity = livingEntityFromEntity(npc.getEntity());
-        if (entity == null) {
+        Player playerNPC = PlayerFromEntity(npc.getEntity());
+        if (playerNPC == null) {
             if (Boolean.FALSE.equals(player.getWorld().getGameRuleValue(GameRule.KEEP_INVENTORY)))
                 player.getInventory().clear();
             player.teleport(new Location(player.getWorld(), 0, Integer.MIN_VALUE, 0));
@@ -62,9 +61,9 @@ public class Avatar {
             npc.destroy();
             return;
         }
-        player.teleport(entity.getLocation());
-        player.setHealth(entity.getHealth());
         player.getInventory().setContents(npc.getOrAddTrait(Inventory.class).getContents());
+        player.teleport(playerNPC.getLocation());
+        player.setHealth(playerNPC.getHealth());
         player.addPotionEffects(((Player) npc.getEntity()).getActivePotionEffects());
         npc.destroy();
     }
