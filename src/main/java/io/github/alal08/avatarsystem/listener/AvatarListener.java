@@ -2,7 +2,6 @@ package io.github.alal08.avatarsystem.listener;
 
 import io.github.alal08.avatarsystem.AvatarTrait;
 import net.citizensnpcs.api.event.NPCDeathEvent;
-import net.citizensnpcs.api.event.NPCRightClickEvent;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Inventory;
 import org.bukkit.GameRule;
@@ -27,14 +26,6 @@ public class AvatarListener implements Listener {
                     world.dropItem(npc.getEntity().getLocation(), itemStack);
                 }
             }
-        }
-    }
-
-    @EventHandler
-    public void onNPCRightClick(@NotNull NPCRightClickEvent event) {
-        NPC npc = event.getNPC();
-        if (npc.hasTrait(AvatarTrait.class)) {
-            event.getClicker().sendMessage("너는 아바타야!");
         }
     }
 }
