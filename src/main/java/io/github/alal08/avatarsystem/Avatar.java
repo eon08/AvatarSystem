@@ -7,6 +7,7 @@ import net.citizensnpcs.api.trait.trait.Equipment;
 import net.citizensnpcs.api.trait.trait.Inventory;
 import net.citizensnpcs.api.trait.trait.Owner;
 import org.bukkit.GameRule;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -56,6 +57,7 @@ public class Avatar {
         if (entity == null) {
             if (Boolean.FALSE.equals(player.getWorld().getGameRuleValue(GameRule.KEEP_INVENTORY)))
                 player.getInventory().clear();
+            player.teleport(new Location(player.getWorld(), 0, Integer.MIN_VALUE, 0));
             player.setHealth(0);
             npc.destroy();
             return;
