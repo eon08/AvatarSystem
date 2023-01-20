@@ -17,7 +17,6 @@ public class AvatarListener implements Listener {
     public void onAvatarDeath(@NotNull NPCDeathEvent event) {
         NPC npc = event.getNPC();
         if (!npc.hasTrait(AvatarTrait.class)) return;
-        //UUID ownerUUID = npc.getOrAddTrait(Owner.class).getOwnerId();
         World world = npc.getEntity().getWorld();
         if (Boolean.FALSE.equals(world.getGameRuleValue(GameRule.KEEP_INVENTORY))) {
             ItemStack[] itemStacks = npc.getOrAddTrait(Inventory.class).getContents();

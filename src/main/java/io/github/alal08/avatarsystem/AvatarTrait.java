@@ -1,6 +1,6 @@
 package io.github.alal08.avatarsystem;
 
-import io.github.alal08.avatarsystem.util.yaml.YamlManager;
+import io.github.alal08.avatarsystem.util.YamlManager;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.Trait;
@@ -16,7 +16,7 @@ public class AvatarTrait extends Trait {
     private static final YamlManager dataAvatarYaml = new YamlManager("data", "avatar");
 
     public AvatarTrait() {
-        super("avatartrait");
+        super("avatarTrait");
     }
 
     public void toAvatar(@NotNull NPC npc, @NotNull Player player) {

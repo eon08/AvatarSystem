@@ -21,6 +21,7 @@ repositories {
     }
     maven { url = 'https://raw.githubusercontent.com/Bruce0203/library-mirror/spigot-1.19.3/' }
     maven { url = 'https://raw.githubusercontent.com/Bruce0203/library-mirror/authlib/' }
+
 }
 
 dependencies {

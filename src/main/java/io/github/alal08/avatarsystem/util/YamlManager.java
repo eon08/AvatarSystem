@@ -1,4 +1,4 @@
-package io.github.alal08.avatarsystem.util.yaml;
+package io.github.alal08.avatarsystem.util;
 
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
@@ -14,8 +14,8 @@ public class YamlManager {
     private final String dir;
 
     public YamlManager(String dir, String name) {
-        dir = System.getProperty("user.dir") + "/" + dir;
-        this.file = new File(dir + "/ " + name + ".yml");
+        dir = System.getProperty("user.dir") + "/plugins/AvatarSystem/" + dir;
+        this.file = new File(dir + "/" + name + ".yml");
         this.dir = dir;
         this.create();
     }

@@ -1,6 +1,6 @@
 package io.github.alal08.avatarsystem;
 
-import io.github.alal08.avatarsystem.util.yaml.YamlManager;
+import io.github.alal08.avatarsystem.util.YamlManager;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Inventory;
