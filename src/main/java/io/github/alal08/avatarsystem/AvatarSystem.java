@@ -1,6 +1,8 @@
 package io.github.alal08.avatarsystem;
 
 import io.github.alal08.avatarsystem.listener.ListenerHandler;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.trait.TraitInfo;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class AvatarSystem extends JavaPlugin {
@@ -11,7 +13,7 @@ public final class AvatarSystem extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         new ListenerHandler(plugin);
-        net.citizensnpcs.api.CitizensAPI.getTraitFactory().registerTrait(net.citizensnpcs.api.trait.TraitInfo.create(AvatarTrait.class));
+        CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(AvatarTrait.class));
     }
 
     @Override
