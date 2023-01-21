@@ -2,7 +2,6 @@ package io.github.alal08.avatarsystem;
 
 import io.github.alal08.avatarsystem.util.CitizensHelper;
 import io.github.alal08.avatarsystem.util.YamlManager;
-import lombok.SneakyThrows;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Inventory;
@@ -18,13 +17,11 @@ public class Avatar {
 
     private static final YamlManager dataAvatarYaml = new YamlManager("data", "avatar");
 
-    @SneakyThrows
     public static void initAvatar(@NotNull Player player) {
         NPC npc = CitizensHelper.createNPC(EntityType.PLAYER, player.getName(), player.getUniqueId(), player.getLocation());
         npc.destroy();
     }
 
-    @SneakyThrows
     public static void disconnectAvatar(@NotNull Player player) {
         NPC npc = CitizensHelper.createNPC(EntityType.PLAYER, player.getName(), player.getUniqueId(), player.getLocation());
         AvatarTrait avatarTrait = npc.getOrAddTrait(AvatarTrait.class);
