@@ -1,4 +1,4 @@
-package io.github.alal08.avatarsystem;
+package io.github.alal08.avatarsystem.util;
 
 import io.github.alal08.avatarsystem.listener.ListenerHandler;
 import net.citizensnpcs.api.CitizensAPI;
