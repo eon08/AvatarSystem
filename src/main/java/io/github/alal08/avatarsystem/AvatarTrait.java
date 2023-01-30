@@ -16,7 +16,7 @@ public class AvatarTrait extends Trait {
     private static final YamlManager dataAvatarYaml = new YamlManager("data", "avatar");
 
     public AvatarTrait() {
-        super("avatarTrait");
+        super("AvatarTrait");
     }
 
     public void toAvatar(@NotNull NPC npc, @NotNull Player player) {
