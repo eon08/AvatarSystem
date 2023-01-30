@@ -1,6 +1,5 @@
 package io.github.alal08.avatarsystem;
 
-import io.github.alal08.avatarsystem.util.CitizensHelper;
 import io.github.alal08.avatarsystem.util.YamlManager;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -18,12 +17,12 @@ public class Avatar {
     private static final YamlManager dataAvatarYaml = new YamlManager("data", "avatar");
 
     public static void initAvatar(@NotNull Player player) {
-        NPC npc = CitizensHelper.createNPC(EntityType.PLAYER, player.getName(), player.getUniqueId(), player.getLocation());
+        NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, player.getName(), player.getLocation());
         npc.destroy();
     }
 
     public static void disconnectAvatar(@NotNull Player player) {
-        NPC npc = CitizensHelper.createNPC(EntityType.PLAYER, player.getName(), player.getUniqueId(), player.getLocation());
+        NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, player.getName(), player.getLocation());
         AvatarTrait avatarTrait = npc.getOrAddTrait(AvatarTrait.class);
         avatarTrait.toAvatar(npc, player);
         npc.addTrait(avatarTrait);

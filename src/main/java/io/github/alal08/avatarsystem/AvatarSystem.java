@@ -18,6 +18,6 @@ public final class AvatarSystem extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        CitizensAPI.getTraitFactory().deregisterTrait(TraitInfo.create(AvatarTrait.class));
+        // Plugin shutdown logic
     }
 }
